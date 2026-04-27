@@ -26,6 +26,29 @@ const TypingDots = () => (
   </div>
 );
 
+const FounderCard = () => (
+  <div style={{
+    margin:"24px 0 8px",padding:"18px",borderRadius:16,
+    background:"linear-gradient(135deg,#1a1a1a,#006600)",
+    border:"2px solid #c8960c",textAlign:"center",
+  }}>
+    <img
+      src="https://i.postimg.cc/ZKZJmR9J/IMG-20260321-WA0183.jpg"
+      alt="Kelsey Wangui Wanjiku"
+      style={{width:80,height:80,borderRadius:"50%",objectFit:"cover",border:"3px solid #c8960c",marginBottom:10}}
+    />
+    <p style={{color:"#c8960c",fontWeight:900,fontSize:15,margin:"4px 0",fontFamily:"Georgia,serif"}}>
+      👩‍💻 Made by Kelsey Wangui Wanjiku
+    </p>
+    <p style={{color:"#fff",fontSize:12,margin:"2px 0"}}>
+      Education & Tech Enthusiast 🎓
+    </p>
+    <p style={{color:"#c8ffc8",fontSize:12,margin:"2px 0"}}>
+      Kenya 🇰🇪 | MsomaBuddy Founder
+    </p>
+  </div>
+);
+
 export default function App() {
   const [screen, setScreen] = useState("home");
   const [level, setLevel] = useState(null);
@@ -99,6 +122,7 @@ You help ${level==="CBC"?"CBC primary school":"secondary school (Form 1-4, KCSE)
         </div>
         <button style={styles.startBtn} onClick={()=>setScreen("level")}>Anza Kusoma! 🚀</button>
         <p style={styles.swahiliNote}>( "Anza Kusoma" = Start Studying )</p>
+        <FounderCard/>
       </div>
     </div>
   );
