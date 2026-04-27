@@ -38,7 +38,7 @@ const FounderCard = () => (
       style={{width:80,height:80,borderRadius:"50%",objectFit:"cover",border:"3px solid #c8960c",marginBottom:10}}
     />
     <p style={{color:"#c8960c",fontWeight:900,fontSize:15,margin:"4px 0",fontFamily:"Georgia,serif"}}>
-      👩‍💻 Made by Kelsey Wangui Wanjiku
+      👩‍💻 Made by Kelseay Wangui Wanjiku
     </p>
     <p style={{color:"#fff",fontSize:12,margin:"2px 0"}}>
       Education & Tech Enthusiast 🎓
@@ -81,11 +81,16 @@ You help ${level==="CBC"?"CBC primary school":"secondary school (Form 1-4, KCSE)
     setInput("");
     setLoading(true);
     try {
-      const response = await fetch("https://api.anthropic.com/v1/messages",{
+      const OPENROUTER_KEY = "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";
+      const response = await fetch("""https://openrouter.ai/api/v1/chat/completions",{
         method:"POST",
-        headers:{"Content-Type":"application/json"},
+      headers:{
+  "Content-Type":"application/json",
+  "Authorization": `Bearer ${OPENROUTER_KEY}`,
+  "HTTP-Referer": "https://probable-octo-broccoli-six.vercel.app",
+      },
         body:JSON.stringify({
-          model:"claude-sonnet-4-20250514",
+          model:"model:"anthropic/claude-3-haiku",
           max_tokens:1000,
           system:systemPrompt,
           messages:newMessages,
