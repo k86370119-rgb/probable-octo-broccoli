@@ -362,31 +362,13 @@ export default function App() {
           </div>
         )}
         <div ref={bottomRef}/>
-      </div>
-      {displayMessages.length<=1&&mode==="chat"&&(
-        <div style={S.quickRow}>
-          {quickActions.map(a=>(<button key={a.label} style={S.quickBtn} onClick={()=>sendMessage(a.text)}>{a.label}</button>))}
-        </div>
-      )}
-      {mode==="chat"&&(
-        <div style={S.inputRow}>
-          <input style={S.input} value={input} onChange={e=>setInput(e.target.value)}
-            onKeyDown={e=>e.key==="Enter"&&sendMessage(input)}
-            placeholder="Ask your education question... 📚"/>
-          <button style={S.sendBtn} onClick={()=>sendMessage(input)} disabled={loading||!input.trim()}>➤</button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-const S = {
+      </diconst S = {
   page:{minHeight:"100vh",background:"#f4f4f4",display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",position:"relative",padding:20,fontFamily:"Georgia,serif"},
   stripTop:{position:"fixed",top:0,left:0,right:0,height:8,background:"#1a1a1a",zIndex:99},
   stripRed:{position:"fixed",top:8,left:0,right:0,height:6,background:"#BB0000",zIndex:99},
   stripBottom:{position:"fixed",bottom:0,left:0,right:0,height:8,background:"#006600",zIndex:99},
   homeCard:{background:"#fff",borderRadius:20,padding:"36px 28px",maxWidth:420,width:"100%",boxShadow:"0 8px 40px rgba(0,102,0,0.15)",border:"3px solid #006600",textAlign:"center",marginTop:20},
-  logo:{fontSize:32,fontWeight:900,color:"#006600",margin:0,fontFamily:"Georgia,serif",letterSpacing:-1},
+  logo:{fontSize:32,fontWeight:900,color:"#006600",margin:0,fontFamily:"Georgia,serif"},
   tagline:{fontSize:15,color:"#BB0000",fontWeight:700,margin:"4px 0 8px"},
   v2Badge:{background:"linear-gradient(135deg,#1a1a1a,#006600)",color:"#c8960c",fontSize:12,fontWeight:800,padding:"4px 14px",borderRadius:20,display:"inline-block",marginBottom:10},
   subtitle:{fontSize:15,color:"#444",lineHeight:1.6,margin:"0 0 16px"},
@@ -408,4 +390,40 @@ const S = {
   chatHeader:{background:"linear-gradient(135deg,#1a1a1a 0%,#006600 100%)",padding:"12px 16px",display:"flex",alignItems:"center",justifyContent:"space-between",boxShadow:"0 2px 12px rgba(0,0,0,0.3)"},
   backWhite:{background:"none",border:"none",color:"#fff",fontSize:22,cursor:"pointer",fontWeight:700},
   newChat:{background:"#BB0000",border:"none",color:"#fff",borderRadius:8,padding:"6px 12px",fontSize:12,fontWeight:700,cursor:"pointer"},
-  modeTabs:{display:"flex",background:"#fff",borderBottom:"2px solid #00
+  modeTabs:{display:"flex",background:"#fff",borderBottom:"2px solid #006600"},
+  modeTab:{flex:1,padding:"9px 2px",border:"none",background:"none",fontSize:11,fontWeight:700,cursor:"pointer",color:"#888",fontFamily:"Georgia,serif"},
+  modeTabActive:{color:"#006600",borderBottom:"3px solid #006600",background:"#e8f5e9"},
+  panel:{background:"#fff",padding:"14px",borderBottom:"1px solid #eee"},
+  panelTitle:{textAlign:"center",fontWeight:900,color:"#006600",marginBottom:4,fontSize:14,fontFamily:"Georgia,serif"},
+  panelSub:{textAlign:"center",fontSize:11,color:"#666",marginBottom:10},
+  btnGrid:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:10},
+  mediaBtn:{padding:"10px 6px",borderRadius:10,border:"2px solid #006600",background:"#e8f5e9",color:"#006600",fontWeight:700,fontSize:12,cursor:"pointer",fontFamily:"Georgia,serif"},
+  researchInput:{width:"100%",padding:"10px 14px",borderRadius:12,border:"2px solid #006600",fontSize:13,fontFamily:"Georgia,serif",background:"#e8f5e9",outline:"none",resize:"none"},
+  warning:{fontSize:11,color:"#BB0000",textAlign:"center",marginTop:8,fontWeight:700},
+  chatBody:{flex:1,overflowY:"auto",padding:"16px 12px",display:"flex",flexDirection:"column"},
+  avatarSmall:{width:34,height:34,marginRight:8,flexShrink:0,marginTop:4},
+  aiBubble:{background:"#fff",borderRadius:"4px 18px 18px 18px",padding:"10px 14px",maxWidth:"80%",fontSize:14,lineHeight:1.6,boxShadow:"0 2px 8px rgba(0,0,0,0.08)",color:"#1a1a1a",border:"1.5px solid #006600"},
+  userBubble:{background:"linear-gradient(135deg,#006600,#009900)",color:"#fff",borderRadius:"18px 4px 18px 18px",padding:"10px 14px",maxWidth:"78%",fontSize:14,lineHeight:1.6},
+  quickRow:{display:"flex",gap:8,padding:"8px 12px",overflowX:"auto",background:"#fff",borderTop:"1px solid #eee"},
+  quickBtn:{whiteSpace:"nowrap",padding:"8px 12px",borderRadius:20,border:"2px solid #BB0000",background:"#fff0f0",color:"#BB0000",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"Georgia,serif"},
+  inputRow:{display:"flex",gap:8,padding:"10px 12px 18px",background:"#fff",borderTop:"2px solid #006600"},
+  input:{flex:1,padding:"12px 16px",borderRadius:24,border:"2px solid #006600",fontSize:15,outline:"none",fontFamily:"Georgia,serif",background:"#e8f5e9"},
+  sendBtn:{background:"#BB0000",color:"#fff",border:"none",borderRadius:"50%",width:48,height:48,fontSize:20,cursor:"pointer",fontWeight:700},
+};v>
+      {displayMessages.length<=1&&mode==="chat"&&(
+        <div style={S.quickRow}>
+          {quickActions.map(a=>(<button key={a.label} style={S.quickBtn} onClick={()=>sendMessage(a.text)}>{a.label}</button>))}
+        </div>
+      )}
+      {mode==="chat"&&(
+        <div style={S.inputRow}>
+          <input style={S.input} value={input} onChange={e=>setInput(e.target.value)}
+            onKeyDown={e=>e.key==="Enter"&&sendMessage(input)}
+            placeholder="Ask your education question... 📚"/>
+          <button style={S.sendBtn} onClick={()=>sendMessage(input)} disabled={loading||!input.trim()}>➤</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
