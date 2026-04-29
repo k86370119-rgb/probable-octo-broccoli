@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from "react";
 
+import { useState, useRef, useEffect } from "react";
 const KEY = "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";
 const API = "https://openrouter.ai/api/v1/chat/completions";
 const CBC = ["Mathematics","English","Kiswahili","Science & Technology","Social Studies","Creative Arts","Religious Education"];
