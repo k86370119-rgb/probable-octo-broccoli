@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-const KEY = "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";
+const KEY = process.env.REACT_APP_OPENROUTER_KEY;
 const API = "https://openrouter.ai/api/v1/chat/completions";
 const CBC = ["Mathematics","English","Kiswahili","Science & Technology","Social Studies","Creative Arts","Religious Education"];
 const SEC = ["Mathematics","English","Kiswahili","Biology","Chemistry","Physics","History & Government","Geography","Computer Studies","Business Studies","Agriculture"];
@@ -54,10 +54,21 @@ export default function App() {
       const res = await fetch(API, {
         method:"POST",
         headers:{"Content-Type":"application/json","Authorization":"Bearer "+KEY,"HTTP-Referer":"https://probable-octo-broccoli-six.vercel.app","X-Title":"MsomaBuddy"},
-        body:JSON.stringify({model:"anthropic/claude-3-haiku",max_tokens:1000,messages:[{role:"system",content:SYSTEM+" Level:"+level+" Subject:"+subject},...newMsgs]})
+        body:JSON.stringify({model:"model: "anthropic/claude-3.5-sonnet"",max_tokens:1000,messages:[{role:"system",content:SYSTEM+" Level:"+level+" Subject:"+subject},...newMsgs]})
       });
       const d = await res.json();
-      const reply = d.choices?.[0]?.message?.content || "Samahani, try again!";
+
+console.log("API RESPONSE:", d);
+
+if (!res.ok) {
+  throw new Error(d.error?.message || "API request failed");
+}
+
+const reply = d.choices?.[0]?.message?.content;
+if (!reply) {
+  throw new Error("No reply returned from model");
+}
+  
       setMsgs(prev=>[...prev,{role:"assistant",content:reply}]);
     } catch(e) {
       setMsgs(prev=>[...prev,{role:"assistant",content:"Oops! Check internet and try again!"}]);
