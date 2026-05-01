@@ -1,6 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-
-const API = "https://openrouter.ai/api/v1/chat/completions";
+import { useState, useRef, useEffect } from "react"
+const API = "/api/chat";
 const CBC = ["Mathematics","English","Kiswahili","Science & Technology","Social Studies","Creative Arts","Religious Education"];
 const SEC = ["Mathematics","English","Kiswahili","Biology","Chemistry","Physics","History & Government","Geography","Computer Studies","Business Studies","Agriculture"];
 const SYSTEM = "You are MsomaBuddy, a strictly educational AI for Kenyan students. Only answer school subject questions. Use Kenyan examples like matatus and shillings. Be warm and encouraging like a cool older sibling. Show step by step working for math. If asked non-educational questions say: Samahani! MsomaBuddy is for education only. Ask me about your subjects!";
