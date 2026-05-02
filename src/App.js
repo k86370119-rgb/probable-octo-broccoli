@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 
 const CBC = ["Mathematics","English","Kiswahili","Science & Technology","Social Studies","Creative Arts","Religious Education"];
 const SEC = ["Mathematics","English","Kiswahili","Biology","Chemistry","Physics","History & Government","Geography","Computer Studies","Business Studies","Agriculture"];
-const SYSTEM = "You are MsomaBuddy, a strictly educational AI for Kenyan students. Only answer school subject questions. Use Kenyan examples like matatus and shillings. Be warm and encouraging. If asked non-educational questions say: Samahani! MsomaBuddy is for education only!";
+const SYSTEM = "You are MsomaBuddy, a strictly educational AI for Kenyan students. Only answer school subject questions. Use Kenyan examples like matatus and shillings. Be warm and encouraging like a cool older sibling. Show step by step working for math. If asked non-educational questions say: Samahani! MsomaBuddy is for education only!";
 
 export default function App() {
   const [screen, setScreen] = useState("home");
@@ -25,6 +25,7 @@ export default function App() {
   }, [msgs, loading]);
 
   const subs = level === "CBC" ? CBC : SEC;
+
   const onImg = (e) => {
     const f = e.target.files[0];
     if (!f || !f.type.startsWith("image/")) return;
@@ -38,7 +39,12 @@ export default function App() {
 
   const send = async (text, i64 = null) => {
     if (!text.trim() && !i64) return;
-    const userMsg = { role: "user", content: i64 ? [{ type: "image_url", image_url: { url: "data:image/jpeg;base64," + i64 } }, { type: "text", text: text || "Explain this educational image step by step." }] : text };
+    const userMsg = {
+      role: "user",
+      content: i64
+        ? [{ type: "image_url", image_url: { url: "data:image/jpeg;base64," + i64 } }, { type: "text", text: text || "Explain this educational image step by step for a Kenyan student." }]
+        : text
+    };
     const newMsgs = [...msgs, userMsg];
     setMsgs(newMsgs);
     setImg(null);
@@ -58,7 +64,7 @@ export default function App() {
       const reply = d.choices?.[0]?.message?.content || "Samahani, try again!";
       setMsgs(prev => [...prev, { role: "assistant", content: reply }]);
     } catch (e) {
-      setMsgs(prev => [...prev, { role: "assistant", content: "Samahani! Could not connect. Try again!" }]);
+      setMsgs(prev => [...prev, { role: "assistant", content: "Samahani! Could not connect. Try again! 🙏" }]);
     }
     setLoading(false);
   };
@@ -95,42 +101,72 @@ export default function App() {
         <h1 style={{ fontSize: 30, fontWeight: 900, color: "#006600", margin: "0 0 4px", fontFamily: "Georgia,serif" }}>MsomaBuddy</h1>
         <p style={{ color: "#BB0000", fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>🇰🇪 Kenya's Smart Study Partner</p>
         <div style={{ background: "linear-gradient(135deg,#1a1a1a,#006600)", color: "#c8960c", fontSize: 12, fontWeight: 800, padding: "4px 14px", borderRadius: 20, display: "inline-block", marginBottom: 12 }}>
-          V2 — Photo + Video + Research!
+          ⚡ V2 — Photo + Video + Research!
         </div>
         <p style={{ fontSize: 14, color: "#444", lineHeight: 1.6, margin: "0 0 14px" }}>
-          AI help for <b>CBC</b> and <b>Secondary</b> students. Strictly educational. Available 24/7!
+          AI help for <b>CBC</b> and <b>Secondary</b> students.<br />Strictly educational. Available 24/7!
         </p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginBottom: 12 }}>
-          {["Maths", "Computer", "Sciences", "Languages", "Humanities", "CBC"].map(f => (
+          {["📐 Maths", "💻 Computer", "🧪 Sciences", "📖 Languages", "🌍 Humanities", "🎨 CBC"].map(f => (
             <div key={f} style={{ background: "#e8f5e9", border: "1.5px solid #006600", borderRadius: 20, padding: "5px 10px", fontSize: 12, color: "#006600", fontWeight: 600 }}>{f}</div>
           ))}
         </div>
-        <div style={{ background: "#fff3f3", border: "1.5px solid #BB0000", borderRadius: 10, padding: "8px", marginBottom: 12, fontSize: 12, color: "#BB0000", fontWeight: 700 }}>
-          Strictly Education Only
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 12 }}>
+          {[["📸", "Snap Question"], ["🎥", "Record Video"], ["📁", "Upload Files"], ["🔬", "Research"]].map(([e, l]) => (
+            <div key={l} style={{ background: "#e8f5e9", border: "2px solid #006600", borderRadius: 12, padding: "10px 6px", display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
+              <span style={{ fontSize: 22 }}>{e}</span>
+              <strong style={{ fontSize: 12, color: "#006600" }}>{l}</strong>
+            </div>
+          ))}
         </div>
-        <button style={G.btn} onClick={() => setScreen("level")}>Anza Kusoma!</button>
-        <p style={{ fontSize: 11, color: "#999", marginTop: 6 }}>Anza Kusoma = Start Studying</p>
+        <div style={{ background: "#fff3f3", border: "1.5px solid #BB0000", borderRadius: 10, padding: "8px", marginBottom: 12, fontSize: 12, color: "#BB0000", fontWeight: 700 }}>
+          🚫 Strictly Education Only
+        </div>
+        <button style={G.btn} onClick={() => setScreen("level")}>Anza Kusoma! 🚀</button>
+        <p style={{ fontSize: 11, color: "#999", marginTop: 6 }}>"Anza Kusoma" = Start Studying</p>
         <div style={{ marginTop: 20, padding: 16, borderRadius: 14, background: "linear-gradient(135deg,#1a1a1a,#006600)", border: "2px solid #c8960c", textAlign: "center" }}>
           <img src="https://i.postimg.cc/ZKZJmR9J/IMG-20260321-WA0183.jpg" alt="Kelsey" style={{ width: 70, height: 70, borderRadius: "50%", objectFit: "cover", border: "3px solid #c8960c", marginBottom: 8 }} />
-          <p style={{ color: "#c8960c", fontWeight: 900, fontSize: 14, margin: "2px 0" }}>Made by Kelsey Wangui Wanjiku</p>
-          <p style={{ color: "#fff", fontSize: 11, margin: "2px 0" }}>Education and Tech Enthusiast</p>
-          <p style={{ color: "#c8ffc8", fontSize: 11 }}>Kenya | MsomaBuddy Founder</p>
+          <p style={{ color: "#c8960c", fontWeight: 900, fontSize: 14, margin: "2px 0" }}>👩‍💻 Made by Kelsey Wangui Wanjiku</p>
+          <p style={{ color: "#fff", fontSize: 11, margin: "2px 0" }}>Education and Tech Enthusiast 🎓</p>
+          <p style={{ color: "#c8ffc8", fontSize: 11 }}>Kenya 🇰🇪 | MsomaBuddy Founder</p>
         </div>
       </div>
     </div>
   );
+
+  if (screen === "level") return (
+    <div style={G.page}>
+      <Bars />
+      <div style={G.card}>
+        <button style={{ background: "none", border: "none", color: "#006600", fontSize: 15, fontWeight: 700, cursor: "pointer", padding: "0 0 14px", fontFamily: "Georgia,serif" }} onClick={() => setScreen("home")}>← Back</button>
+        <h2 style={{ fontSize: 22, fontWeight: 900, color: "#1a1a1a", margin: "0 0 6px", fontFamily: "Georgia,serif" }}>Who are you? 🎓</h2>
+        <p style={{ color: "#777", fontSize: 14, margin: "0 0 20px" }}>Select your level</p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {[{ id: "CBC", label: "CBC Student", desc: "Grade 1 to 9", e: "🏫" }, { id: "Secondary", label: "Secondary Student", desc: "Form 1 to 4 KCSE", e: "📚" }].map(l => (
+            <button key={l.id} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, padding: "20px", borderRadius: 14, border: "2.5px solid #006600", background: "#e8f5e9", cursor: "pointer", fontFamily: "Georgia,serif" }}
+              onClick={() => { setLevel(l.id); setScreen("subject"); }}>
+              <span style={{ fontSize: 36 }}>{l.e}</span>
+              <strong style={{ fontSize: 16 }}>{l.label}</strong>
+              <span style={{ color: "#666", fontSize: 13 }}>{l.desc}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
   if (screen === "subject") return (
     <div style={G.page}>
       <Bars />
       <div style={G.card}>
-        <button style={{ background: "none", border: "none", color: "#006600", fontSize: 15, fontWeight: 700, cursor: "pointer", padding: "0 0 14px", fontFamily: "Georgia,serif" }} onClick={() => setScreen("level")}>Back</button>
-        <h2 style={{ fontSize: 22, fontWeight: 900, color: "#1a1a1a", margin: "0 0 6px", fontFamily: "Georgia,serif" }}>Pick a Subject</h2>
+        <button style={{ background: "none", border: "none", color: "#006600", fontSize: 15, fontWeight: 700, cursor: "pointer", padding: "0 0 14px", fontFamily: "Georgia,serif" }} onClick={() => setScreen("level")}>← Back</button>
+        <h2 style={{ fontSize: 22, fontWeight: 900, color: "#1a1a1a", margin: "0 0 6px", fontFamily: "Georgia,serif" }}>Pick a Subject 📚</h2>
         <p style={{ color: "#777", fontSize: 13, margin: "0 0 16px" }}>{level} Curriculum</p>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
           {subs.map(s => (
             <button key={s} style={G.sbj} onClick={() => {
               setSubject(s);
-              setMsgs([{ role: "assistant", content: "Habari! I am MsomaBuddy, your study partner for " + s + "! Ask me anything or use the tabs to snap a photo, record a video or research a topic! Tuanze!" }]);
+              setMsgs([{ role: "assistant", content: "Habari! 👋 I am MsomaBuddy, your study partner for " + s + "!\n\n📸 Snap a photo of a question\n🎥 Record a study video\n🔬 Research a topic\n💬 Or just ask me anything!\n\nTuanze! 💪🇰🇪" }]);
               setMode("chat");
               setScreen("chat");
             }}>{s}</button>
@@ -146,41 +182,45 @@ export default function App() {
         <button style={{ background: "none", border: "none", color: "#fff", fontSize: 22, cursor: "pointer", fontWeight: 700 }} onClick={() => setScreen("subject")}>←</button>
         <div>
           <div style={{ fontWeight: 800, fontSize: 15, color: "#fff", fontFamily: "Georgia,serif" }}>MsomaBuddy</div>
-          <div style={{ fontSize: 10, color: "#c8ffc8" }}>{subject} · {level} · Edu Only</div>
+          <div style={{ fontSize: 10, color: "#c8ffc8" }}>{subject} · {level} · Edu Only 🔒</div>
         </div>
-        <button style={{ background: "#BB0000", border: "none", color: "#fff", borderRadius: 8, padding: "6px 12px", fontSize: 12, fontWeight: 700, cursor: "pointer" }} onClick={() => { setMsgs([]); setScreen("subject"); }}>New</button>
+        <button style={{ background: "#BB0000", border: "none", color: "#fff", borderRadius: 8, padding: "6px 12px", fontSize: 12, fontWeight: 700, cursor: "pointer" }}
+          onClick={() => { setMsgs([]); setScreen("subject"); }}>New</button>
       </div>
       <div style={{ display: "flex", background: "#fff", borderBottom: "2px solid #006600" }}>
-        {[{ id: "chat", l: "Chat" }, { id: "photo", l: "Photo" }, { id: "video", l: "Video" }, { id: "research", l: "Research" }].map(m => (
-          <button key={m.id} style={{ ...G.tab, ...(mode === m.id ? { color: "#006600", borderBottom: "3px solid #006600", background: "#e8f5e9" } : {}) }} onClick={() => setMode(m.id)}>{m.l}</button>
+        {[{ id: "chat", l: "💬 Chat" }, { id: "photo", l: "📸 Photo" }, { id: "video", l: "🎥 Video" }, { id: "research", l: "🔬 Research" }].map(m => (
+          <button key={m.id} style={{ ...G.tab, ...(mode === m.id ? { color: "#006600", borderBottom: "3px solid #006600", background: "#e8f5e9" } : {}) }}
+            onClick={() => setMode(m.id)}>{m.l}</button>
         ))}
       </div>
       {mode === "photo" && (
         <div style={{ background: "#fff", padding: 14, borderBottom: "1px solid #eee" }}>
-          <p style={{ textAlign: "center", fontWeight: 900, color: "#006600", fontSize: 14, margin: "0 0 8px" }}>Snap a Textbook Question!</p>
+          <p style={{ textAlign: "center", fontWeight: 900, color: "#006600", fontSize: 14, margin: "0 0 8px" }}>📸 Snap a Textbook Question!</p>
           {img && <img src={img} alt="prev" style={{ width: "100%", maxHeight: 160, objectFit: "contain", borderRadius: 10, border: "2px solid #006600", marginBottom: 8 }} />}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 8 }}>
-            <button style={G.mdb} onClick={() => camRef.current.click()}>Take Photo</button>
-            <button style={G.mdb} onClick={() => galRef.current.click()}>Gallery</button>
+            <button style={G.mdb} onClick={() => camRef.current.click()}>📷 Take Photo</button>
+            <button style={G.mdb} onClick={() => galRef.current.click()}>🖼️ Gallery</button>
           </div>
           <input ref={camRef} type="file" accept="image/*" capture="environment" style={{ display: "none" }} onChange={onImg} />
           <input ref={galRef} type="file" accept="image/*" style={{ display: "none" }} onChange={onImg} />
-          {img && <button style={{ ...G.btn, fontSize: 14, padding: "11px" }} onClick={() => { setMode("chat"); send("", img64); }}>Explain This!</button>}
+          {img && <button style={{ ...G.btn, fontSize: 14, padding: "11px" }} onClick={() => { setMode("chat"); send("", img64); }}>🧠 Explain This!</button>}
+          <p style={{ fontSize: 11, color: "#BB0000", textAlign: "center", marginTop: 6, fontWeight: 700 }}>🚫 Educational images only</p>
         </div>
       )}
       {mode === "video" && (
         <div style={{ background: "#fff", padding: 14, borderBottom: "1px solid #eee" }}>
-          <p style={{ textAlign: "center", fontWeight: 900, color: "#006600", fontSize: 14, margin: "0 0 8px" }}>Study Video Mode!</p>
+          <p style={{ textAlign: "center", fontWeight: 900, color: "#006600", fontSize: 14, margin: "0 0 8px" }}>🎥 Study Video Mode!</p>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-            <button style={G.mdb} onClick={() => vidRef.current.click()}>Record Video</button>
-            <button style={G.mdb} onClick={() => vidRef.current.click()}>Upload Video</button>
+            <button style={G.mdb} onClick={() => vidRef.current.click()}>🔴 Record Video</button>
+            <button style={G.mdb} onClick={() => vidRef.current.click()}>📁 Upload Video</button>
           </div>
-          <input ref={vidRef} type="file" accept="video/*" capture="environment" style={{ display: "none" }} onChange={() => alert("Video saved!")} />
+          <input ref={vidRef} type="file" accept="video/*" capture="environment" style={{ display: "none" }} onChange={() => alert("Video saved as study material!")} />
+          <p style={{ fontSize: 11, color: "#BB0000", textAlign: "center", marginTop: 8, fontWeight: 700 }}>🚫 Study videos only</p>
         </div>
       )}
       {mode === "research" && (
         <div style={{ background: "#fff", padding: 14, borderBottom: "1px solid #eee" }}>
-          <p style={{ textAlign: "center", fontWeight: 900, color: "#006600", fontSize: 14, margin: "0 0 6px" }}>Research Mode!</p>
+          <p style={{ textAlign: "center", fontWeight: 900, color: "#006600", fontSize: 14, margin: "0 0 6px" }}>🔬 Research Mode!</p>
           <textarea style={{ width: "100%", padding: "10px", borderRadius: 10, border: "2px solid #006600", fontSize: 13, fontFamily: "Georgia,serif", background: "#e8f5e9", outline: "none", resize: "none", boxSizing: "border-box" }}
             placeholder="e.g. Photosynthesis Form 2 Biology" value={research} onChange={e => setResearch(e.target.value)} rows={3} />
           <button style={{ ...G.btn, fontSize: 14, padding: "11px" }} onClick={() => {
@@ -189,14 +229,15 @@ export default function App() {
             setResearch("");
             setMode("chat");
             send(p);
-          }} disabled={!research.trim()}>Research!</button>
+          }} disabled={!research.trim()}>🔬 Research This Topic!</button>
+          <p style={{ fontSize: 11, color: "#BB0000", textAlign: "center", marginTop: 6, fontWeight: 700 }}>🚫 Education topics only</p>
         </div>
       )}
       <div style={G.body}>
         {msgs.map((m, i) => (
           <div key={i} style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start", marginBottom: 10 }}>
             <div style={m.role === "user" ? G.usr : G.ai}>
-              {(typeof m.content === "string" ? m.content : "Photo sent").split("\n").map((l, j) => (
+              {(typeof m.content === "string" ? m.content : "📸 Photo sent").split("\n").map((l, j) => (
                 <p key={j} style={{ margin: "2px 0", lineHeight: 1.5 }}>{l}</p>
               ))}
             </div>
@@ -214,18 +255,18 @@ export default function App() {
       </div>
       {msgs.length <= 1 && mode === "chat" && (
         <div style={{ display: "flex", gap: 8, padding: "8px 12px", overflowX: "auto", background: "#fff", borderTop: "1px solid #eee" }}>
-          {[{ l: "Explain", t: "Explain main concepts in " + subject }, { l: "Quiz Me", t: "Give me a quiz on " + subject }, { l: "Study Tip", t: "Give me a study tip for " + subject }, { l: "Past Paper", t: "Give me a past paper question for " + subject + " in Kenya" }].map(a => (
+          {[{ l: "📖 Explain", t: "Explain main concepts in " + subject }, { l: "🧪 Quiz Me", t: "Give me a quiz on " + subject }, { l: "💡 Tip", t: "Give me a study tip for " + subject }, { l: "📝 Past Paper", t: "Give me a past paper question for " + subject + " in Kenya" }].map(a => (
             <button key={a.l} style={{ whiteSpace: "nowrap", padding: "8px 12px", borderRadius: 20, border: "2px solid #BB0000", background: "#fff0f0", color: "#BB0000", fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "Georgia,serif" }} onClick={() => send(a.t)}>{a.l}</button>
           ))}
         </div>
       )}
       {mode === "chat" && (
         <div style={{ display: "flex", gap: 8, padding: "10px 12px 18px", background: "#fff", borderTop: "2px solid #006600" }}>
-          <input style={G.inp} value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === "Enter" && send(input)} placeholder="Ask your education question..." />
+          <input style={G.inp} value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === "Enter" && send(input)} placeholder="Ask your education question... 📚" />
           <button style={G.send} onClick={() => send(input)} disabled={loading || !input.trim()}>➤</button>
         </div>
       )}
     </div>
   );
-            }
-    
+  }
+                                       
