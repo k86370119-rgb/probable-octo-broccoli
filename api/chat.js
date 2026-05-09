@@ -14,36 +14,33 @@ export default async function handler(req, res) {
   try {
     const { messages, system } = req.body;
 
-    const geminiMessages = messages
-      .filter(m => m.role !== "system")
-      .map(m => ({
-        role: m.role === "assistant" ? "model" : "user",
-        parts: [{ text: typeof m.content === "string" ? m.content : m.content?.find?.(c => c.type === "text")?.text || "" }]
-      }));
-
-    const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + process.env.GEMINI_API_KEY,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: system || "" }] },
-          contents: geminiMessages,
-          generationConfig: { maxOutputTokens: 1000 }
-        })
-      }
-    );
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + process.env.GROQ_API_KEY
+      },
+      body: JSON.stringify({
+        model: "llama-3.1-8b-instant",
+        max_tokens: 1000,
+        messages: [
+          { role: "system", content: system || "" },
+          ...messages.filter(m => m.role !== "system").map(m => ({
+            role: m.role,
+            content: typeof m.content === "string" ? m.content : m.content?.find?.(c => c.type === "text")?.text || ""
+          }))
+        ]
+      })
+    });
 
     const data = await response.json();
-    console.log("Gemini response:", JSON.stringify(data));
 
     if (data.error) {
-      console.log("Gemini error:", data.error.message);
+      console.log("Groq error:", data.error.message);
       return res.status(500).json({ error: data.error.message });
     }
 
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Samahani, try again!";
-
+    const reply = data.choices?.[0]?.message?.content || "Samahani, try again!";
     return res.status(200).json({
       choices: [{ message: { content: reply } }]
     });
@@ -52,4 +49,4 @@ export default async function handler(req, res) {
     console.log("Server error:", error.message);
     return res.status(500).json({ error: "Server error!" });
   }
-}
+      }
